@@ -170,7 +170,7 @@ class WorkThread(QThread):
             f (float, optional): 进给率. Defaults to 100.
         """
         # 发送信号到主线程
-        self.positon.emit(self.home[0]+x,self.home[1]+y,self.home[2]+z,f)
+        self.positon.emit(self.home[0]+x,self.home[1]-y,self.home[2]+z,f)
         # 计算移动距离，结合进给率计算移动事件
         dist = np.sqrt((self.p[0]-x)*(self.p[0]-x) + (self.p[1]-y)*(self.p[1]-y) + (self.p[2]-z)*(self.p[2]-z))
         time.sleep(dist/f*60.0+0.1)
@@ -565,7 +565,7 @@ class calibration(QWidget):
         self.skin.setDisabled(True)
         self.cnc.uart.setDisabled(True)
         self.press.uart.setDisabled(True)
-        self.skin.ucg.setDisabled(True)
+        self.skin.uart.setDisabled(True)
         # 禁用标定设置
         self.groupData.setDisabled(True)
         self.groupSetting.setDisabled(True)
@@ -589,14 +589,16 @@ class calibration(QWidget):
         """标定完成信号的响应函数
 
         """
-        # 输出信息提示标定完成
-        self.labelMessage('标定完成')
+        
         # 恢复禁用的控件
         self.cnc.setEnabled(True)
         self.press.setEnabled(True)
         self.skin.setEnabled(True)
         self.cnc.uart.setEnabled(True)
         self.press.uart.setEnabled(True)
-        self.skin.ucg.setEnabled(True)
+        self.skin.uart.setEnabled(True)
         self.groupData.setEnabled(True)
         self.groupSetting.setEnabled(True)
+        
+        # 输出信息提示标定完成
+        self.labelMessage.setText('标定完成')

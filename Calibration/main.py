@@ -59,9 +59,9 @@ class MevisCalibration(QMainWindow):
         self.setActions()
         self.setMenuBar()
         # 默认端口号（仅供调试）
-        # self.uartCnc.setPort('COM11')
-        # self.uartPress.setPort('COM10')
-        # self.uartSkin.setPort('COM12')
+        self.uartCnc.setPort('COM11')
+        self.uartPress.setPort('COM10')
+        self.uartSkin.setPort('COM12')
         self.show()
         
     def setActions(self):
@@ -174,7 +174,7 @@ class MevisCalibration(QMainWindow):
         self.setWindowTitle('Mevis Calibration Unity')
 
         # 设置窗口的图标，引用当前目录下的web.png图片
-        self.setWindowIcon(QIcon('mevis_test_icon.png'))
+        self.setWindowIcon(QIcon('mt.png'))
 
         # 移到中心
         qr = self.frameGeometry()

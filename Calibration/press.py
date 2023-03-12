@@ -177,11 +177,11 @@ class press(QWidget):
             wz (int): 零位
         """
         # 将原始值转化为压力
-        self.wp = (w-wz)/133.763
+        self.wp = (w-wz)/133.663 * 0.0098
         self.w = w
         # 更新显示
         self.textCali.setText('%.01f'%(wz))
-        self.textData.setText('%.02f'%(self.wp))
+        self.textData.setText('%.06f'%(self.wp))
     
     def updateZero(self):
         """校准零位
