@@ -55,7 +55,7 @@ class WorkThread(QThread):
             'PressPiority':None,    # 按压顺序策略，深度优先or平面优先
             'MaxDepth':1.2,         # 最大按压深度
             'DepthStep':0.2,        # 按压深度步长
-            'stackTime':50          # 单次按压收集样本数
+            'stackTime':100          # 单次按压收集样本数
         }
         # 数据缓冲区
         self.stackTemp = [] 
@@ -78,7 +78,7 @@ class WorkThread(QThread):
         # 获取点阵列
         points = self.selectStrategy(self.setting['strategy'])
         # 获取深度序列
-        depths = np.arange(start=self.setting['DepthStep'],stop=self.setting['MaxDepth'],step=self.setting['DepthStep'])
+        depths = np.arange(start=self.setting['DepthStep'],stop=self.setting['MaxDepth']+self.setting['DepthStep'],step=self.setting['DepthStep'])
         # 平面优先
         if(self.setting['PressPiority'] == 0):
             for d in depths:
@@ -148,10 +148,10 @@ class WorkThread(QThread):
         """
         # 抬高压头
         self.setPosition(self.p[0],self.p[1],2,200)
-        # 清零压力计
-        self.pressZero.emit(True)
         # 移动到预定位置
         self.setPosition(x,y,2,200)
+         # 清零压力计
+        self.pressZero.emit(True)
         # 缓慢压下
         self.setPosition(x,y,-deep,50)
         
@@ -202,6 +202,10 @@ class WorkThread(QThread):
             return pointList.square_10_10(side=20,num=21)
         if(s==1):
             return pointList.square_10_10(side=20,num=11)
+        if(s==2):
+            return pointList.square_10_10(side=18,num=3)
+        if(s==3):
+            return pointList.single_sensor()
     
     def flushCsv(self,x,y,d):
         """写入数据到csv文件
@@ -244,10 +248,7 @@ class graphCalibration(QWidget):
         self.setFixedSize(480, 400)
         # 设置points分布策略
         self.method = 0
-        self.points = pointList.square_10_10()
-        # 在points后增加一列数据表示按压深度
-        for p in self.points:
-            p.append(0)
+        self.points = None
             
     def paintEvent(self,event):
         """重写Qt调用的绘图事件
@@ -269,15 +270,16 @@ class graphCalibration(QWidget):
         qp.fillRect(0,0,420,360,QColor(250,250,250) )
         qp.fillRect(60,30,300,300,QColor(50,50,50,70))
         # 遍历标定点，绿色代表为标定，由黄变红表示按压深度逐渐增加
-        for p in self.points:
-            if(p[2]!=0):
-                qp.setPen( QColor.fromHsl(50-p[2]*40,200,120,alpha=200) )
-                qp.setBrush(QBrush(QColor.fromHsl(50-p[2]*40,200,200,alpha=200)))
-                qp.drawEllipse(110+p[0]*10,80+p[1]*10,8,8) 
-            else:
-                qp.setPen( QColor(0, 224, 159, 150) )
-                qp.setBrush(QBrush(QColor(55,254,200,150)))
-                qp.drawEllipse(110+p[0]*10,80+p[1]*10,8,8) 
+        if (self.points is not None):
+            for p in self.points:
+                if(p[2]!=0):
+                    qp.setPen( QColor.fromHsl(50-p[2]*40,200,120,alpha=200) )
+                    qp.setBrush(QBrush(QColor.fromHsl(50-p[2]*40,200,200,alpha=200)))
+                    qp.drawEllipse(110+p[0]*10,80+p[1]*10,8,8) 
+                else:
+                    qp.setPen( QColor(0, 224, 159, 150) )
+                    qp.setBrush(QBrush(QColor(55,254,200,150)))
+                    qp.drawEllipse(110+p[0]*10,80+p[1]*10,8,8) 
                 
     def updateStrategy(self,s:int):
         """更新标定点分布策略
@@ -293,7 +295,14 @@ class graphCalibration(QWidget):
             self.points = pointList.square_10_10(20,11)
             for p in self.points:
                 p.append(0)
-                
+        if(s == 2):
+            self.points = pointList.square_10_10(18,3)
+            for p in self.points:
+                p.append(0)
+        if(s == 3):
+            self.points = pointList.single_sensor()
+            for p in self.points:
+                p.append(0)
     def updatePoint(self,ip:int, d:float):
         """更新点信息，外部调用
 
@@ -429,7 +438,7 @@ class calibration(QWidget):
         """设置控件交互相关功能
         """
         # 标定点分布策略填充与选择响应
-        self.strategySelect = ['square_20_20(441P)','square_20_20(121P)']
+        self.strategySelect = ['square_20_20(441P)','square_20_20(121P)','square_20_20(9P)','single_sensor(49P)']
         self.comboxStrategy.addItems(self.strategySelect)
         self.comboxStrategy.setCurrentIndex(0)
         self.comboxStrategy.currentIndexChanged.connect(self.onMethodChanged)
@@ -521,6 +530,16 @@ class calibration(QWidget):
             self.file_name = ('./data/%s%d.csv'%('squ2011_',time.time()%1000),'CSV UTF-8 逗号分隔(*.csv)')
             self.linePath.setText(self.file_name[0])
             self.graph.updateStrategy(1)
+            self.graph.update()
+        if(self.comboxStrategy.currentIndex()==2):
+            self.file_name = ('./data/%s%d.csv'%('squ2003_',time.time()%1000),'CSV UTF-8 逗号分隔(*.csv)')
+            self.linePath.setText(self.file_name[0])
+            self.graph.updateStrategy(2)
+            self.graph.update()
+        if(self.comboxStrategy.currentIndex()==3):
+            self.file_name = ('./data/%s%d.csv'%('singal_49_',time.time()%1000),'CSV UTF-8 逗号分隔(*.csv)')
+            self.linePath.setText(self.file_name[0])
+            self.graph.updateStrategy(3)
             self.graph.update()
             
     def onPressPriorityChanged(self):

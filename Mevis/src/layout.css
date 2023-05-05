@@ -1,0 +1,28 @@
+.logo {
+    float: left;
+    width: 120px;
+    height: 31px;
+    margin: 16px 16px 16px 0;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.ant-row-rtl .logo {
+    float: right;
+    margin: 16px 0 16px 24px;
+}
+
+.header-title {
+    float: left;
+    color: white;
+}
+
+.header-extra {
+    color: cadetblue;
+    float: right;
+}
+
+#banner {
+    width: 100%;
+    object-fit: contain;
+    margin-top: -42px;
+}

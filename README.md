@@ -26,7 +26,7 @@ say merci to graduate,
 - [x] 电子皮肤上位机（Electrion+React+AntD构建，简明，优美的图形化GUI，包含安装包）
 - [x] Comsol磁场仿真模型（对磁化过程进行了简单仿真）
 
-<img src="Simulation/magnet filed.png" alt="magnet filed" style="zoom:25%;" /> <img src="assets/indenter.png" alt="magnet filed" style="zoom:50%;" /> <img src="assets/mod.png" alt="mod" style="zoom:25%;" /><img src="assets/proc.png" alt="proc" style="zoom:25%;" /><img src="assets/finger.png" alt="finger" style="zoom:25%;" />
+<img src="Simulation/magnet filed.png" alt="magnet filed" style="zoom:25%;" /> <img src="assets/indenter.png" alt="magnet filed" style="zoom:50%;" /> <img src="assets/mod.png" alt="mod" style="zoom:50%;" /><img src="assets/proc.png" alt="proc" style="zoom:25%;" /><img src="assets/finger.png" alt="finger" style="zoom:25%;" />
 
 <img src="assets/mevis.png" alt="mevis" style="zoom: 33%;" />
 

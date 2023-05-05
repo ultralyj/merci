@@ -59,9 +59,9 @@ class MevisCalibration(QMainWindow):
         self.setActions()
         self.setMenuBar()
         # 默认端口号（仅供调试）
-        self.uartCnc.setPort('COM11')
-        self.uartPress.setPort('COM10')
-        self.uartSkin.setPort('COM12')
+        # self.uartCnc.setPort('COM11')
+        # self.uartPress.setPort('COM10')
+        # self.uartSkin.setPort('COM12')
         self.show()
         
     def setActions(self):
