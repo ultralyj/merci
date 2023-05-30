@@ -30,7 +30,10 @@ let chartOption = {
         data: chartData.xAxis
     },
     yAxis: {
-        type: 'value'
+        type: 'value',
+        max:200,
+        min:-200,
+        scale: true,
     },
     series: [
         {

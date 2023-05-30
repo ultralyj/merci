@@ -75,7 +75,7 @@ async function handleSerialOpen(event, portInfo) {
             console.log("open serial failed, error:" + error);
         }
         else{
-            console.log("open serial successfully")
+            console.log("open serial" +portInfo.path+"successfully")
         }
     })
     const parser = port.pipe(new DelimiterParser({ delimiter: '\n' })); // 以 \n 分隔处理数据

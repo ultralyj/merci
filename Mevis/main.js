@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain} = require('electron');
 const path = require("path");
 const { serial, listSerialPorts, handleSerialOpen, handleRequestList, handleSerialClose} = require('./src/components/serial')
+const {cnn_init} = require('./src/components/cnn')
 // 浏览器引用
 require('./src/components/window')
 const url = require("url");
@@ -12,7 +13,7 @@ let createWindow = () => {
     // eslint-disable-next-line no-global-assign
     window = new BrowserWindow({
         width: 1241,
-        height: 760,
+        height: 780,
         icon: path.join(__dirname, './src/res/mevis_icon.ico'),
         // 隐藏菜单栏
         autoHideMenuBar: true,
@@ -37,7 +38,7 @@ let createWindow = () => {
     window.loadURL('http://localhost:3000');
 
     // 打开调试工具
-    window.webContents.openDevTools();
+    // window.webContents.openDevTools();
 
     // 加载完成触发事件，载入串口列表等数据
     window.webContents.on('did-finish-load', () => {
@@ -48,6 +49,7 @@ let createWindow = () => {
         // eslint-disable-next-line no-global-assign
         window = null;
     });
+    cnn_init();
 };
 
 // 当app准备就绪时候开启窗口

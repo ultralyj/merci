@@ -10,6 +10,9 @@ import {ApiOutlined, PoweroffOutlined, SearchOutlined, HeatMapOutlined} from "@a
 
 import {updatePlotTactile} from "./charts/plotTactile.js"
 import {updateBoardGraph} from "./charts/boardGraph";
+import {upDataMesh} from "./charts/meshSensor";
+import {func} from "three/nodes";
+import {updatePressTactile} from "./charts/scatterTactile";
 
 class SerialPanel extends React.Component{
     constructor(props) {
@@ -29,6 +32,23 @@ class SerialPanel extends React.Component{
         /**
          * 更新端口列表
          */
+        // 3d模型触点模拟测试
+        // let x = -10;
+        // let y = -10;
+        // let t1 = window.setTimeout(function () {
+        //     let t2 = window.setInterval(function () {
+        //         console.log(x,y);
+        //         upDataMesh(x,y,1);
+        //         x+=0.2;
+        //         y+=0.2;
+        //         if(x>=8){
+        //             x=-8;
+        //             y=-8;
+        //         }
+        //     }, 100);
+        // }, 2000);
+
+
         window.electronAPI.onListSerial((_event, ports) => {
             if(ports.length>0){
                 let comList = ports.map((item,index) => {
@@ -59,6 +79,7 @@ class SerialPanel extends React.Component{
                 if(Math.abs(crc-frame[12])<0.5) {
                     updatePlotTactile(frame);
                     updateBoardGraph(frame);
+                    updatePressTactile(frame);
                 }
             }
 
@@ -143,7 +164,7 @@ class SerialPanel extends React.Component{
             this.setState({opened:true});
             // 关闭状态，开启串口
             if(this.state.serialCom !== '未搜索到端口'){
-                let portInfo = {path:this.state.port,baud:this.state.baud};
+                let portInfo = {path:this.state.serialCom,baud:this.state.baud};
                 // 进入打开串口的加载状态
                 this.setState({loading:true});
                 await window.electronAPI.openSerial(portInfo);

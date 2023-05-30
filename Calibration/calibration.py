@@ -151,7 +151,7 @@ class WorkThread(QThread):
         # 移动到预定位置
         self.setPosition(x,y,2,200)
          # 清零压力计
-        self.pressZero.emit(True)
+        #self.pressZero.emit(True)
         # 缓慢压下
         self.setPosition(x,y,-deep,50)
         

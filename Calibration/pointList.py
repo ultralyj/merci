@@ -9,7 +9,7 @@ def square_10_10(side = 20, num = 21):
 
 def single_sensor():
     p = []
-    l = [0,1,2,3,4,5,6,-6,-5,-4,-3,-2,-1]
+    l = [-4,0,4]
     for i in l:
         for j in l:
             p.append([i,j])

@@ -33,8 +33,12 @@ function drawArrow(ctx, fromX, fromY, toX, toY, theta, headLen, width, color) {
     ctx.lineTo(arrowX, arrowY);
 }
 
+/**
+ * @brief 外部调用，更新绘图
+ * @param data
+ */
 export function updateBoardGraph(data) {
-    const adjustPros = [[1,-15],[-1,22],[-1,22],[-1,22]];
+    const adjustPros = [[1,0],[1,0],[1,0],[1,0]];
     const c=document.getElementById('board-canvas');
     const ctx=c.getContext('2d');
     ctx.beginPath();
@@ -53,8 +57,6 @@ export function updateBoardGraph(data) {
         drawArrow(ctx,chipsPosition[i][0], chipsPosition[i][1],toX,toY,20,10,1.5,'#f00');
     }
     ctx.stroke();
-
-    //
 }
 class BoardGraph extends React.Component {
     componentDidMount() {
@@ -82,7 +84,7 @@ class BoardGraph extends React.Component {
                     height:"220px",
                     backgroundImage: `url(${sensorBoard})`,
                     backgroundSize:"140% 140%",
-                    backgroundPosition: "50% 50%"
+                    backgroundPosition: "46% 50%"
                 }}>
                 <canvas id="board-canvas" style={{width:"100%",height:"100%"}}></canvas>
 

@@ -4,8 +4,8 @@ import type { RadioChangeEvent } from 'antd';
 import {RocketOutlined} from "@ant-design/icons";
 
 const optionsWithDisabled = [
-    { label: '默认输出', value: 'normal' },
-    { label: '事件驱动', value: 'event' },
+    { label: '离线推理', value: 'normal' },
+    { label: '在线推理', value: 'event' },
     { label: '测试', value: 'test', disabled: true },
 ];
 

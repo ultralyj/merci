@@ -6,3 +6,5 @@
 *.PrjPcbStructure
 *.Cam
 *.xlsx
+*.PcbLib
+*.SchLib

@@ -7,3 +7,5 @@
 *.Cam
 *.xlsx
 *.IntLib
+*.PcbLib
+*.SchLib

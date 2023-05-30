@@ -2,4 +2,6 @@
 /History
 /Project Logs for merci_finger
 
+*.PcbLib
+*.SchLib
 *.PrjPcbStructure
